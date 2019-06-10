@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <input type="button" id="hienthiSP" value="Hien Thi San Pham" onclick="hienthiSanpham();"/>
+</div>
+<div id="showMessage">
+
+</div>
+
+<script>
+    let showDiv = document.getElementById('showMessage');
+    let messDiv = '';
+    let arrSanpham = ['One','Two','Three'];
+    let temp = -1;
+
+    function xoaSP(st) {
+        let surr = confirm('Ban chac chan xoa chu !');
+
+        if (surr){
+            for (i = st; i < arrSanpham.length - 1; i++) {
+                arrSanpham[i] = arrSanpham[i+1];
+            }
+            arrSanpham.pop();
+        }
+
+        hienthiSanpham();
+    }
+
+    function themSp() {
+        let them = document.getElementById('tenSP').value;
+        let flagg = true;
+
+        for(i=0;i<arrSanpham.length;i++){
+            if(arrSanpham[i] == them){
+                flagg = false;
+                break;
+            }
+        }
+
+        if(flagg){
+            arrSanpham.push(them);
+            alert('them san pham thanh cong');
+        }else{
+            alert('san pham da ton tai');
+        }
+        hienthiSanpham();
+    }
+
+    function checkSua() {
+        if (temp == -1){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function suaTensp() {
+        let tem = document.getElementById('tenSP').value;
+        let flaggg = true;
+
+        if (checkSua()){
+            for (x = 0; x < arrSanpham.length; x++) {
+                if(arrSanpham[x] == tem){
+                    flaggg = false;
+                    break;
+                }
+            }
+            if (flaggg){
+                for (i = 0; i < arrSanpham.length; i++) {
+                    if(arrSanpham[i] == temp){
+                        arrSanpham.splice(i,1,tem);
+                        break;
+                    }
+                }
+                alert('sua ten san pham thanh cong');
+            } else {
+                alert('san pham da ton tai, khong sua duoc');
+            }
+
+            hienthiSanpham();
+            temp = -1;
+        } else {
+            alert('ban chua chon san pham de sua');
+        }
+    }
+
+    function hienthiTen(ten) {
+        document.getElementById('tenSP').value = ten;
+        temp = ten;
+    }
+
+    function hienthiSanpham() {
+        messDiv = "<table border='1' width='300' cellspacing='0' cellpadding='3'>";
+        messDiv += "<tr><td>STT</td><td>Ten San Pham</td><td>Xoa</td>"
+        for(i=0;i<arrSanpham.length;i++){
+            messDiv += "<tr><td>"+(i+1)+"</td><td>";
+            messDiv += "<input type='button' id='tenSPinTable' value='"+arrSanpham[i]+"' onclick='hienthiTen(this.value);'/>";
+            messDiv += "</td><td>";
+            messDiv += "<input type='button' value='Xoa' onclick='xoaSP("+i+");'/>";
+            messDiv += "</td>";
+            messDiv += "</tr>";
+        }
+        messDiv += "</table><br/>";
+        messDiv += "<form>";
+        messDiv += "<input type='text' id='tenSP' value=''/>";
+        messDiv += "<input type='button' id='themTenSP' value='Them' onclick='themSp();'/>";
+        messDiv += "<input type='button' id='suaTenSP' value='Sua' onclick='suaTensp();'/>";
+        messDiv +="</form>";
+
+        showDiv.innerHTML = messDiv;
+    }
+</script>
+
+</body>
+</html>
